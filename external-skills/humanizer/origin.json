@@ -1,0 +1,13 @@
+{
+  "purpose": "Default complete language-editing dependency for cs-homework-report; upstream text unmodified, coursework scope adapter in skills/cs-homework/references/report-prose.md",
+  "commit": "8c307f367c91bd974002f10f2be2965d642c13df",
+  "files": {
+    "SKILL.md": "0612f1dfb1672b0ea9b97e139bf1f06cabe98d8b27424fe8ff01e1fb4cc99cad",
+    "LICENSE": "4ac4810254ab36d45419141aeb8e69bf50652cfafe5b2dab947d06d44e5cbf96"
+  },
+  "repo": "blader/humanizer",
+  "version": "3.1.0",
+  "source": "https://github.com/blader/humanizer",
+  "license": "MIT",
+  "adopted": "2026-10-27"
+}

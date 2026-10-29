@@ -1,0 +1,64 @@
+\documentclass[a4paper,11pt,fontset=fandol]{ctexart}
+\usepackage[margin=25mm]{geometry}
+\usepackage{amsmath,graphicx}
+\pagestyle{plain}
+\input{assets/numbers.tex}
+\begin{document}
+\begin{center}{\Large\bfseries 静态区间求和：已有结果的说明}\end{center}
+\section{问题与接口}
+本作业处理固定数组上的区间求和。
+\verb|query(left, right)| 返回左闭右开区间 $[left,right)$ 的元素和。
+输入为 $[\InputValues]$；本文沿用随附记录中的输出，不重新执行程序或增加计时实验。
+
+\section{方法与边界}
+\label{sec:method}
+首先构建前缀数组，其次处理区间查询。令数组长度为 $n$，则
+\begin{equation}
+P[0]=0,\quad P[k+1]=P[k]+a[k]\quad (0\leq k<n).
+\label{eq:prefix}
+\end{equation}
+查询公式为
+\begin{equation}S(left,right)=P[right]-P[left].\label{eq:query}\end{equation}
+程序检查 $0\leq left\leq right\leq n$，否则抛出 \texttt{ValueError}。
+当 $left=right$ 时，两个相同的前缀值相减，空区间和为零。
+下面是需要保留的接口检查代码，示例文本不是一次新的执行记录。
+\begin{verbatim}
+if not 0 <= left <= right <= n:
+    raise ValueError("invalid range")
+return prefix[right] - prefix[left]
+\end{verbatim}
+预处理时间和额外存储均为 $O(n)$；查询在通常整数运算模型下为 $O(1)$。
+这是代码分析，不是实测结论；Python 大整数的运算成本仍受数值位数影响。
+只有一次查询时，额外构建前缀数组未必值得。
+
+\clearpage
+\section{样例结果与解释}
+\label{sec:results}
+据随附记录\cite{record:prefix}，前缀值为 $[\PrefixValues]$。
+图\ref{fig:prefix}与表\ref{tab:queries}沿用同一份既有输出；该记录的生成过程没有在本次润色中独立重跑。
+
+\begin{figure}[!ht]
+\centering\includegraphics[width=.62\linewidth]{assets/prefix.pdf}
+\caption{固定输入的前缀值；横轴为元素个数，纵轴为整数和。}
+\label{fig:prefix}
+\end{figure}
+\begin{table}[!ht]\centering\input{assets/table.tex}
+\caption{三个查询的独立答案与随附输出。}\label{tab:queries}\end{table}
+
+$[0,4)$、$[1,3)$、$[2,2)$ 的输出分别为 $\FullSum$、$\MiddleSum$、$\EmptySum$。
+三个给定查询均与独立手算一致。
+这仅支持所列样例，负数、越界异常和大输入尚未由随附运行验证；不能据此断言所有输入均正确。
+记录未提供以 ms 为单位的耗时，本报告不比较速度。图的递增与这组正元素对应，不代表任意输入都递增。
+
+\section{个人思考与限制}
+\label{sec:thoughts}
+我觉得统一成左闭右开的区间后，空区间可以直接用相同的两个前缀值相减，
+不需要另加求和分支。前缀数组会多占一个元素和一份存储；如果只有一次查询，
+直接遍历区间更简单。若数组经常修改，当前静态前缀和要重新构建，
+是否换成其他结构还需要根据更新与查询的次数决定。
+
+第\ref{sec:method}节的分析以静态数组为前提。后续可能比较动态更新结构，目前尚未进行该比较。
+\begin{thebibliography}{9}
+\bibitem{record:prefix} 随附前缀和样例输出与图表记录（由提供者交付，本次未重跑生成过程）。
+\end{thebibliography}
+\end{document}
